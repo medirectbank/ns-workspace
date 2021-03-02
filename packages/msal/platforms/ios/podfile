@@ -1,0 +1,4 @@
+
+#
+platform :ios, '11.0'
+    pod 'MSAL' #,'1.1.15'

@@ -36,6 +36,15 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<!--Intent filter to capture authorization code response from the default browser on the device calling back to our app after interactive sign in -->
+		<activity android:name="com.microsoft.identity.client.BrowserTabActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:host="YOUR_PACKAGE_NAME" android:path="/YOUR_BASE64_ENCODED_PACKAGE_SIGNATURE" android:scheme="msauth" />
+			</intent-filter>
+		</activity>
 		<activity android:name="com.tns.ErrorReportActivity"/>
 	</application>
 </manifest>

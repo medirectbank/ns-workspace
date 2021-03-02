@@ -57,12 +57,19 @@ module.exports = {
 			},
 		},
 		'⚙️': {
-			script: `npx cowsay "@nativescript/* packages will keep your ⚙️ cranking"`,
-			description: '_____________  @nativescript/*  _____________',
+			script: `npx cowsay "@medirect/* packages will keep your ⚙️ cranking"`,
+			description: '_____________  @medirect/*  _____________',
 		},
 		// packages
 		// build output is always in dist/packages
-		'@nativescript': {
+		'@medirect': {
+			// @medirect/msal
+			msal: {
+				build: {
+					script: 'nx run msal:build.all',
+					description: '@medirect/msal: Build',
+				},
+			},
 			'build-all': {
 				script: 'nx run all:build',
 				description: 'Build all packages',
@@ -73,10 +80,14 @@ module.exports = {
 			description: '_____________  Focus (VS Code supported)  _____________',
 		},
 		focus: {
+			msal: {
+				script: 'nx run msal:focus',
+				description: 'Focus on @medirect/msal',
+			},
 			reset: {
 				script: 'nx run all:focus',
 				description: 'Reset Focus',
-			}
+			},
 		},
 		'.....................': {
 			script: `npx cowsay "That's all for now folks ~"`,

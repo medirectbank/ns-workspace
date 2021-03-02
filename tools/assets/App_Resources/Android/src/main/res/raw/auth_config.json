@@ -1,0 +1,14 @@
+{
+	"client_id": "YOUR_CLIENT_ID",
+	"authorization_user_agent": "DEFAULT",
+	"redirect_uri": "msauth://REDIRECT_URL",
+	"authorities": [
+		{
+			"type": "AAD",
+			"audience": {
+				"type": "AzureADMyOrg",
+				"tenant_id": "THE_TENANT"
+			}
+		}
+	]
+}

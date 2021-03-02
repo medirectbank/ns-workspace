@@ -54,5 +54,25 @@
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
 		<true/>
 	</dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>msauth.[YOUR_BUNDLE_ID]</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleIdentifier</key>
+	<string></string>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>msauthv2</string>
+        <string>msauthv3</string>
+    </array>
 </dict>
 </plist>
