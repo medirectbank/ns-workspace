@@ -37,6 +37,8 @@ declare class MSALAccount extends NSObject implements MSALAccountProtocol, NSCop
 
 	readonly homeAccountId: MSALAccountId;
 
+	readonly isSSOAccount: boolean;
+
 	readonly tenantProfiles: NSArray<MSALTenantProfile>;
 
 	readonly accountClaims: NSDictionary<string, any>; // inherited from MSALAccountProtocol
@@ -178,8 +180,6 @@ declare class MSALAuthenticationSchemeBearer extends NSObject implements MSALAut
 
 	conformsToProtocol(aProtocol: any /* Protocol */): boolean;
 
-	getAuthorizationHeader(accessToken: string): string;
-
 	isEqual(object: any): boolean;
 
 	isKindOfClass(aClass: typeof NSObject): boolean;
@@ -226,8 +226,6 @@ declare class MSALAuthenticationSchemePop extends NSObject implements MSALAuthen
 
 	conformsToProtocol(aProtocol: any /* Protocol */): boolean;
 
-	getAuthorizationHeader(accessToken: string): string;
-
 	initWithHttpMethodRequestUrlNonceAdditionalParameters(httpMethod: MSALHttpMethod, requestUrl: NSURL, nonce: string, additionalParameters: NSDictionary<any, any>): this;
 
 	isEqual(object: any): boolean;
@@ -253,8 +251,6 @@ interface MSALAuthenticationSchemeProtocol extends NSObjectProtocol {
 	authenticationScheme: string;
 
 	scheme: MSALAuthScheme;
-
-	getAuthorizationHeader(accessToken: string): string;
 }
 declare var MSALAuthenticationSchemeProtocol: {
 	prototype: MSALAuthenticationSchemeProtocol;
@@ -420,6 +416,8 @@ interface MSALExternalAccountProviding extends NSObjectProtocol {
 	accountsWithParametersError(parameters: MSALAccountEnumerationParameters): NSArray<MSALAccountProtocol>;
 
 	removeAccountTenantProfilesError(account: MSALAccountProtocol, tenantProfiles: NSArray<MSALTenantProfile> | MSALTenantProfile[]): boolean;
+
+	removeAccountWipeAccountTenantProfilesError(account: MSALAccountProtocol, wipeAccount: boolean, tenantProfiles: NSArray<MSALTenantProfile> | MSALTenantProfile[]): boolean;
 
 	updateAccountIdTokenClaimsError(account: MSALAccountProtocol, idTokenClaims: NSDictionary<any, any>): boolean;
 }
@@ -678,6 +676,8 @@ declare class MSALLegacySharedAccountsProvider extends NSObject implements MSALE
 
 	removeAccountTenantProfilesError(account: MSALAccountProtocol, tenantProfiles: NSArray<MSALTenantProfile> | MSALTenantProfile[]): boolean;
 
+	removeAccountWipeAccountTenantProfilesError(account: MSALAccountProtocol, wipeAccount: boolean, tenantProfiles: NSArray<MSALTenantProfile> | MSALTenantProfile[]): boolean;
+
 	respondsToSelector(aSelector: string): boolean;
 
 	retainCount(): number;
@@ -701,6 +701,14 @@ declare const enum MSALLogLevel {
 	Last = 4,
 }
 
+declare const enum MSALLogMaskingLevel {
+	SettingsMaskAllPII = 0,
+
+	SettingsMaskEUIIOnly = 1,
+
+	SettingsMaskSecretsOnly = 2,
+}
+
 declare class MSALLogger extends NSObject {
 	static alloc(): MSALLogger; // inherited from NSObject
 
@@ -721,6 +729,8 @@ declare class MSALLoggerConfig extends NSObject {
 	static new(): MSALLoggerConfig; // inherited from NSObject
 
 	logLevel: MSALLogLevel;
+
+	logMaskingLevel: MSALLogMaskingLevel;
 
 	piiEnabled: boolean;
 
@@ -775,6 +785,8 @@ declare class MSALPublicClientApplication extends NSObject {
 	validateAuthority: boolean;
 
 	webviewType: MSALWebviewType;
+
+	static readonly sdkVersion: string;
 
 	constructor(o: { clientId: string; authority: MSALAuthority });
 
@@ -959,6 +971,8 @@ declare class MSALSignoutParameters extends MSALParameters {
 
 	readonly webviewParameters: MSALWebviewParameters;
 
+	wipeAccount: boolean;
+
 	constructor(o: { webviewParameters: MSALWebviewParameters });
 
 	initWithWebviewParameters(webviewParameters: MSALWebviewParameters): this;
@@ -1092,6 +1106,8 @@ declare class MSALWebviewParameters extends NSObject implements NSCopying {
 	presentationStyle: UIModalPresentationStyle;
 
 	webviewType: MSALWebviewType;
+
+	static readonly defaultWKWebviewConfiguration: WKWebViewConfiguration;
 
 	constructor(o: { authPresentationViewController: UIViewController });
 

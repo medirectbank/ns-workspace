@@ -4,7 +4,7 @@ import {} from '@medirect/msal';
 
 export function navigatingTo(args: EventData) {
 	const page = <Page>args.object;
-	page.bindingContext = new DemoModel();
+	page.bindingContext = new DemoModel(page);
 }
 
 export class DemoModel extends DemoSharedMsal {}
